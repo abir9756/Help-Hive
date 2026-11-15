@@ -11,6 +11,7 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const navLink =
   "flex shrink-0 items-center gap-2 rounded-full px-3 py-2.5 text-[15px] font-medium text-[#3d4a41] transition-colors hover:bg-brand-soft/70 hover:text-brand"
@@ -93,6 +94,7 @@ export default function SiteNavbar() {
             </span>
           </div>
 
+        <Link href={'/login'}>
           <Button
             type="button"
             aria-label="Login"
@@ -101,6 +103,7 @@ export default function SiteNavbar() {
             <LogIn className="size-[18px]" strokeWidth={2} aria-hidden="true" />
             <span className="hidden sm:inline">Login</span>
           </Button>
+        </Link>
         </div>
       </nav>
     </header>

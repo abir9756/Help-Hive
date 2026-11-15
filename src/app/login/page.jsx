@@ -12,9 +12,28 @@ import {
   Users,
   CalendarDays,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+
+ const handleLogin = async(e)=>{
+    e.preventDefault();
+    const formData = new FormData(e.target)
+   const user = Object.fromEntries(formData.entries())
+    const {data,error} = await authClient.signIn.email({
+        ...user,
+
+    })
+    if(data){
+        redirect('/')
+    }
+    if(error){
+        console.log(error)
+    }
+ }
+
 
   return (
     <section className="flex min-h-[calc(100svh-104px)] items-center justify-center bg-brand-surface px-4 py-8 sm:px-6 sm:py-12">
@@ -104,7 +123,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-5">
             {/* Email */}
             <div>
               <label className="mb-2 block text-sm font-semibold text-brand/80">
@@ -119,6 +138,7 @@ export default function LoginPage() {
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="example@email.com"
                   className="w-full rounded-xl border border-[#dfe7d4] bg-[#fcfdf9] py-3.5 pr-4 pl-12 text-brand outline-none transition placeholder:text-brand-muted/50 focus:border-brand-accent focus:ring-2 focus:ring-brand-soft"
                   required
@@ -149,6 +169,7 @@ export default function LoginPage() {
                 />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="Enter your password"
                   className="w-full rounded-xl border border-[#dfe7d4] bg-[#fcfdf9] py-3.5 pr-12 pl-12 text-brand outline-none transition placeholder:text-brand-muted/50 focus:border-brand-accent focus:ring-2 focus:ring-brand-soft"
                   required
