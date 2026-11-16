@@ -25,11 +25,7 @@ export default function RootLayout({ children }) {
       className={`${plusJakarta.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-brand-surface">
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("helphive-theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;r.classList.toggle("dark",d);r.style.colorScheme=d?"dark":"light";}catch(e){}})();`,
-          }}
-        />
+    
         <SiteNavbar />
         <main className="flex-1">{children}</main>
         <Footer></Footer>
