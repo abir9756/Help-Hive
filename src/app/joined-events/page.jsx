@@ -11,9 +11,10 @@ import {
   LoaderCircle,
   LogIn,
   MapPin,
+  PencilLine,
   Plus,
-  Share2,
   UserRound,
+  X,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -91,7 +92,6 @@ export default function JoinedEventsPage() {
     error: "",
   });
   const [reloadKey, setReloadKey] = useState(0);
-  const [copiedId, setCopiedId] = useState(null);
 
   useEffect(() => {
     if (!email) return;
@@ -149,28 +149,6 @@ export default function JoinedEventsPage() {
   const handleRetry = () => {
     setResult({ email, status: "loading", bookings: [], error: "" });
     setReloadKey((current) => current + 1);
-  };
-
-  const handleShare = async (booking) => {
-    const url = `${window.location.origin}/upcomingEvent/${booking._id}`;
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: booking.title,
-          text: booking.description,
-          url,
-        });
-        return;
-      }
-
-      await navigator.clipboard.writeText(url);
-      setCopiedId(booking._id);
-    } catch (error) {
-      if (error.name !== "AbortError") {
-        console.error("Unable to share event:", error);
-      }
-    }
   };
 
   return (
@@ -337,14 +315,14 @@ export default function JoinedEventsPage() {
                   </div>
                 </CardContent>
 
-                <CardFooter className="mt-1 gap-2 border-border bg-transparent px-5 py-4">
+                <CardFooter className="mt-1 grid grid-cols-3 gap-2 border-border bg-transparent px-5 py-4">
                   <Link
                     href={`/upcomingEvent/${booking._id}`}
                     className={buttonVariants({
                       variant: "outline",
                       size: "sm",
                       className:
-                        "h-9 flex-1 rounded-full border-border bg-background font-semibold text-brand-ink hover:bg-brand-soft/60",
+                        "h-9 rounded-full border-border bg-background px-2 font-semibold text-brand-ink hover:bg-brand-soft/60",
                     })}
                   >
                     <Eye size={16} aria-hidden="true" />
@@ -355,11 +333,20 @@ export default function JoinedEventsPage() {
                     type="button"
                     variant="secondary"
                     size="sm"
-                    onClick={() => handleShare(booking)}
-                    className="h-9 rounded-full bg-brand-soft/70 px-3 font-semibold text-brand-ink hover:bg-brand-soft"
+                    className="h-9 rounded-full bg-brand-soft/70 px-2 font-semibold text-brand-ink hover:bg-brand-soft"
                   >
-                    <Share2 size={16} aria-hidden="true" />
-                    {copiedId === booking._id ? "Copied" : "Share"}
+                    <PencilLine size={16} aria-hidden="true" />
+                    Edit
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="h-9 rounded-full px-2 font-semibold"
+                  >
+                    <X size={16} aria-hidden="true" />
+                    Cancel
                   </Button>
                 </CardFooter>
               </Card>
