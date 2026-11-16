@@ -2,9 +2,11 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import SiteNavbar from "@/components/site-navbar";
+import Footer from "@/components/footer";
 
-const geistPlusJakartaSansSans = Plus_Jakarta_Sans({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  variable: "--font-plus-jakarta",
 });
 
 
@@ -19,11 +21,18 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistPlusJakartaSansSans.className} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${plusJakarta.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col bg-brand-surface">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("helphive-theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;r.classList.toggle("dark",d);r.style.colorScheme=d?"dark":"light";}catch(e){}})();`,
+          }}
+        />
         <SiteNavbar />
         <main className="flex-1">{children}</main>
+        <Footer></Footer>
       </body>
     </html>
   );
