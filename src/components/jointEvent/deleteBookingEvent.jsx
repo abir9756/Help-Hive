@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import {
   Card,
@@ -25,6 +26,19 @@ import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 
 const DeleteBookingEvent = ({booking}) => {
+
+     const handleCancelBooking = async()=>{
+    const res = await fetch(`http://localhost:5000/userBookings/${booking._id}`,
+      {method:'DELETE'}
+    )
+
+     if (!res.ok) {
+      throw new Error("Failed to cancel booking");
+    }
+
+    const data = await res.json()
+    console.log(data)
+  }
     return (
         <div>
              <Card
@@ -122,10 +136,12 @@ const DeleteBookingEvent = ({booking}) => {
                   </Button>
 
                   <Button
+                   onClick={handleCancelBooking}
                     type="button"
                     variant="destructive"
                     size="sm"
                     className="h-9 rounded-full px-2 text-xs font-semibold"
+                    
                   >
                     <X size={15} />
                     Cancel
